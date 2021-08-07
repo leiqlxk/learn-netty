@@ -42,3 +42,6 @@
     int epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout)
     等待文件描述符epfd上的时间，events表示调用者所有可用事件的集合，maxevents表示最多等到多少个事件就返回，timeout是超时时间
    ```
+4. AIO
+在linux上AIO的底层实现仍使用EPoll，没有很好实现AIO，因此在性能上没有明显的优势，而且被JDK封装了一层不容易深度优化，Linux上AIO还不够成熟，所以Netty选择了NIO而非AIO，
+但是Netty是异步非阻塞框架，其在NIO上做了很多异步的封装
