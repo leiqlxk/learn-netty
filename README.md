@@ -102,3 +102,6 @@
    1. ByteBuf由一串字节数组构成，数组中每个字节用来存放信息，其提供两个索引，一个用于读取数据，一个用于写入数据。这里两个索引通过在字节数组中移动来定位需要读或写信息的位置
    2. 当从ByteBuf读取时，她的readerIndex将会根据读取的字节数递增。同样当写ByteBuf时，它的writerIndex也会根据写入的字节数进行递增
    3. 当readerIndex刚好读到了WriterIndex写入的地方为极限情况，一旦超过，Netty会抛出IndexOutOfBoundsException异常
+### 零拷贝
+   ![img_4.png](img_4.png)      
+   netty中使用直接内存省掉了直接内存和jvm内存的一个数据拷贝，从这个方面来说为零拷贝，但直接内存和socket网口端的拷贝还是存在的
