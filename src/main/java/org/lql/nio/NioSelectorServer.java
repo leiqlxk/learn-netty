@@ -13,7 +13,10 @@ import java.util.Set;
 /**
  * Title: NioSelectorServer <br>
  * ProjectName: learn-netty <br>
- * description: TODO <br>
+ * description: 同步非阻塞，服务器实现模式为一个线程可以处理多个请求，客户端发送的连接请求都会注册到多路复用器selector上，
+ * 多路复用器轮询到连接有IO请求就进行处理，jdk1.4开始引入使用Linux内核函数select()或poll实现，从1.5开始引入epoll基于事件
+ * 响应机制来优化的NIO
+ * redis也是使用epoll模型才实现了单线程的高并发<br>
  *
  * @author: leiql <br>
  * @version: 1.0 <br>
@@ -36,7 +39,8 @@ public class NioSelectorServer {
             // 阻塞等待需要处理的事件发生
             selector.select();
 
-            // 获取selector中注册的全部事件的SelectionKey实例
+            // 获取selector中注册的全部事件的SelectionKey实例，当同时触发事件太多时，此模式还是会有轮询处理时间太久的问题
+            // 此时可以考虑使用线程池来进行相应的业务处理
             Set<SelectionKey> selectionKeys = selector.selectedKeys();
             Iterator<SelectionKey> iterator = selectionKeys.iterator();
 

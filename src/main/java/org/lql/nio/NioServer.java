@@ -15,6 +15,7 @@ import java.util.List;
  * description: 基础非阻塞io <br>
  * 此模式虽然单线程可以处理成千上万个客户端，但循环过程效率太低，连接越多性能越低，存在过多空转有性能瓶颈
  *
+ * jdk早期的select、poll类似于次操作，只是select的线材集合有个数限制（1024），而poll的没有限制
  * @author: leiql <br>
  * @version: 1.0 <br>
  * @since: 2021/8/6 21:40 <br>

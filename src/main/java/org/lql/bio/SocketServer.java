@@ -7,7 +7,9 @@ import java.net.Socket;
 /**
  * Title: ServerSocket <br>
  * ProjectName: learn-netty <br>
- * description: 阻塞io <br>
+ * description: 同步阻塞模型，一个客户端连接对应一个处理线程 <br>
+ * 1. IO代码里read操作是阻塞操作，如果连接不做数据读写操作会导致线程阻塞
+ * 2.如果线程太多，会导致服务器压力太大
  *
  * @author: leiql <br>
  * @version: 1.0 <br>
