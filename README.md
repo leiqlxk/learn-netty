@@ -2,7 +2,23 @@
 ### NIO
 1. NIO三大核心组件：Channel(通道)、Buffer(缓冲区)、Selector(多路复用器）
    * channel类似于流，每个channel对应一个buffer缓冲区，buffer底层就是个数组
-   * channel会注册到selector上，由selector根据channel读写时间的发生将其交由某个空闲的线程处理
+   * 常见的channel：
+     * FileChannel：读写文件
+     * DatagramChannel：使用于udp
+     * SocketChanel：适用于Tcp
+     * ServerSocketChannel：适用于tcp
+   * 常见buffer：
+     * ByteBuffer，实现类有：
+       * MappedByteBuffer
+       * DirectByteBuffer：使用直接内存
+       * HeapByteBuffer：使用堆内存
+     * ShortBuffer
+     * IntBuffer
+     * LongBuffer
+     * FloatBuffer
+     * DoubleBuffer
+     * CharBuffer
+   * channel会注册到selector上，调用selector的selct()会阻塞，由selector根据channel读写事件的发生来返回这些事件将其交由某个空闲的线程处理
    * NIO的Buffer和channel都是既读也可写
 2. Nio的三个关键方法（以下为linux内实现，windows不支持epoll，底层是基于winsock2的select函数实现）
    * Selector.open：创建多路复用器，本质上是调用linux的epoll_create函数来创建epoll
