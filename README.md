@@ -1,4 +1,4 @@
-![img.png](img.png)        
+![img.png](img/img.png)        
 ### NIO
 1. NIO三大核心组件：Channel(通道)、Buffer(缓冲区)、Selector(多路复用器）
    * channel类似于流，每个channel对应一个buffer缓冲区，buffer底层就是个数组
@@ -24,7 +24,7 @@
    * Selector.open：创建多路复用器，本质上是调用linux的epoll_create函数来创建epoll
    * socketChannel.register(selector, SelectionKey.OP_READ)：将channel注册到多路复用器上
    * selector.selector：阻塞等待需要处理的事件发生，其内部通过epoll_ctl来进行事件绑定以及通过epoll_wait函数阻塞等待事件发生
-   ![img_1.png](img_1.png)
+   ![img_1.png](img/img_1.png)
 3. EPoll函数
    * epoll_create
    ``` 
@@ -64,7 +64,7 @@
 但是Netty是异步非阻塞框架，其在NIO上做了很多异步的封装
 ### Netty
 1. Netty线程模型
-   ![img_2.png](img_2.png)
+   ![img_2.png](img/img_2.png)
    * Netty抽象出两组线程池BossGroup和WorkerGroup，前者撞门负责接收客户端的连接，后者专门负责网络的读写
    * BossGroup和WorkerGroup类型都是NioEventLoopGroup
    * NioEventLoopGroup相当于一个事件循环线程组，这个组中含有多个事件循环线程，每一个事件循环线程是NioEventLoop
@@ -109,7 +109,7 @@
    * ChannelHandlerContext：保存Channel相关的上下文信息，同时关联一个ChannelHandler对象
    * ChannelPipeline：保存ChannelHandler的List，用于处理或拦截Channel入站事件和出站操作，其实现了一种高级形式的拦截过滤器模式，使用户可以完全控制事件的处理方式，以及Channel中各个的
    ChannelHandler如何交互。在Netty中每个Channel都有且仅有一个ChannelPipeLine与之对应。
-   ![img_3.png](img_3.png)
+   ![img_3.png](img/img_3.png)
    一个 Channel 包含了一个 ChannelPipeline，而 ChannelPipeline 中又维护了一个由 ChannelHandlerContext 组
    成的双向链表，并且每个 ChannelHandlerContext 中又关联着一个 ChannelHandler。
    read事件(入站事件)和write事件(出站事件)在一个双向链表中，入站事件会从链表 head 往后传递到最后一个入站的
@@ -119,5 +119,5 @@
    2. 当从ByteBuf读取时，她的readerIndex将会根据读取的字节数递增。同样当写ByteBuf时，它的writerIndex也会根据写入的字节数进行递增
    3. 当readerIndex刚好读到了WriterIndex写入的地方为极限情况，一旦超过，Netty会抛出IndexOutOfBoundsException异常
 ### 零拷贝
-   ![img_4.png](img_4.png)      
+   ![img_4.png](img/img_4.png)      
    netty中使用直接内存省掉了直接内存和jvm内存的一个数据拷贝，从这个方面来说为零拷贝，但直接内存和socket网口端的拷贝还是存在的
