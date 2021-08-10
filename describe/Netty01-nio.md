@@ -2141,7 +2141,12 @@ public class AioDemo1 {
                 	Paths.get("1.txt"), StandardOpenOption.READ);
             ByteBuffer buffer = ByteBuffer.allocate(2);
             log.debug("begin...");
+            // 参数1 byteBuffer
+            // 参数2 读取的起始位置
+            // 参数3 附件
+            // 参数4 回调对象
             s.read(buffer, 0, null, new CompletionHandler<Integer, ByteBuffer>() {
+                // read成功
                 @Override
                 public void completed(Integer result, ByteBuffer attachment) {
                     log.debug("read completed...{}", result);
@@ -2149,6 +2154,7 @@ public class AioDemo1 {
                     debug(buffer);
                 }
 
+                // read失败
                 @Override
                 public void failed(Throwable exc, ByteBuffer attachment) {
                     log.debug("read failed...");
