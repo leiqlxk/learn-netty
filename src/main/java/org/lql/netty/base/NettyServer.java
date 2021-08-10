@@ -47,7 +47,7 @@ public class NettyServer {
             System.out.println("netty server start..");
 
             // 绑定一个端口并且同步生成了一个ChannelFuture异步对象，通过isDone()等方法可以判断异步时间的执行情况
-            // 启动服务器并绑定端口，bind是异步操作，sync方法是等待异步操作指定完毕
+            // 启动服务器并绑定端口，bind是异步操作，sync方法是等待异步操作指到完毕
             ChannelFuture channelFuture = serverBootstrap.bind(9000).sync();
 
             //给cf注册监听器，监听我们关心的事件
