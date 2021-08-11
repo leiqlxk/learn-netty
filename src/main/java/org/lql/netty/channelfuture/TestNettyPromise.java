@@ -33,12 +33,15 @@ public class TestNettyPromise {
             // 任意一个线程执行计算，计算完毕后向promise填充结果
             LOGGER.debug("开始计算....");
             try {
+                int i = 1 / 0;
                 Thread.sleep(1000);
+                promise.setSuccess(80);
             } catch (InterruptedException e) {
                 e.printStackTrace();
+                promise.setFailure(e);
             }
 
-            promise.setSuccess(80);
+
         }).start();
 
         // 接收结果
