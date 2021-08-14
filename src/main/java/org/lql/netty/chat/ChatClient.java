@@ -9,6 +9,7 @@ import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.handler.timeout.IdleStateHandler;
+import org.lql.netty.chat.config.Config;
 import org.lql.netty.chat.message.*;
 import org.lql.netty.chat.protocol.MessageCodecSharable;
 import org.lql.netty.chat.protocol.ProcotolFreameDecoder;
@@ -188,7 +189,7 @@ public class ChatClient {
                         }
                     });
 
-            ChannelFuture future = bootstrap.connect(new InetSocketAddress("127.0.0.1", 9000)).sync();
+            ChannelFuture future = bootstrap.connect(new InetSocketAddress("127.0.0.1", Config.getServerPort())).sync();
 
             // 此处也等连接建立后发送登录请求
 

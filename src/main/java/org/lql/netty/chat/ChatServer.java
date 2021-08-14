@@ -13,6 +13,7 @@ import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.handler.timeout.IdleStateHandler;
+import org.lql.netty.chat.config.Config;
 import org.lql.netty.chat.handler.*;
 import org.lql.netty.chat.protocol.MessageCodecSharable;
 import org.lql.netty.chat.protocol.ProcotolFreameDecoder;
@@ -88,7 +89,7 @@ public class ChatServer {
                             channel.pipeline().addLast(quitHandler);
                         }
                     });
-            ChannelFuture future = serverBootstrap.bind(9000).sync();
+            ChannelFuture future = serverBootstrap.bind(Config.getServerPort()).sync();
             future.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             LOGGER.error("server error", e);

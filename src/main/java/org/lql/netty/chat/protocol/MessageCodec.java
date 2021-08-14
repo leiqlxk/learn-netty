@@ -3,6 +3,7 @@ package org.lql.netty.chat.protocol;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageCodec;
+import org.lql.netty.chat.config.Config;
 import org.lql.netty.chat.message.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +36,7 @@ public class MessageCodec extends ByteToMessageCodec<Message> {
         byteBuf.writeByte(1);
 
         // 1 字节序列化算法 0-jdk 1-json
-        byteBuf.writeByte(0);
+        byteBuf.writeByte(Config.getSerializerAlgorithm().ordinal());
 
         // 1 字节指令类型
         byteBuf.writeByte(message.getMessageType());
@@ -47,10 +48,11 @@ public class MessageCodec extends ByteToMessageCodec<Message> {
         byteBuf.writeByte(0xff);
 
         // 获取内容的字节数组
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        /*ByteArrayOutputStream bos = new ByteArrayOutputStream();
         ObjectOutputStream oos = new ObjectOutputStream(bos);
         oos.writeObject(message);
-        byte[] bytes = bos.toByteArray();
+        byte[] bytes = bos.toByteArray();*/
+        byte[] bytes = Config.getSerializerAlgorithm().serialize(message);
 
         // 4 字节正文长度
         byteBuf.writeInt(bytes.length);
@@ -71,11 +73,17 @@ public class MessageCodec extends ByteToMessageCodec<Message> {
         int length = byteBuf.readInt();
         byte[] bytes = new byte[length];
         byteBuf.readBytes(bytes, 0, length);
-        Message message = null;
-        if (serializeType == 0) {
-            ObjectInputStream osi = new ObjectInputStream(new ByteArrayInputStream(bytes));
-            message = (Message) osi.readObject();
-        }
+
+        // 获取反序列化算法
+        Serializer.Algorithm algorithm = Serializer.Algorithm.values()[serializeType];
+        // 找到对应的消息类型
+        Class<? extends Message> messageClass = Message.getMessageClass(messageType);
+        Message message = algorithm.deserialize(messageClass, bytes);
+        /*if (serializeType == 0) {
+            *//*ObjectInputStream osi = new ObjectInputStream(new ByteArrayInputStream(bytes));
+            message = (Message) osi.readObject();*//*
+            message = Serializer.Algorithm.Java.deserialize(Message.class, bytes);
+        }*/
 
         LOGGER.debug("{}, {}, {}, {}, {}, {}", magicNum, version, serializeType, messageType, sequenceId, length);
         LOGGER.debug("{}", message);
