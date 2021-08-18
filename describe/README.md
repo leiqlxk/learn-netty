@@ -62,10 +62,12 @@
 ### AIO
 在linux上AIO的底层实现仍使用EPoll，没有很好实现AIO，因此在性能上没有明显的优势，而且被JDK封装了一层不容易深度优化，Linux上AIO还不够成熟，所以Netty选择了NIO而非AIO，
 但是Netty是异步非阻塞框架，其在NIO上做了很多异步的封装
+
 ### Netty
 1. Netty线程模型
    ![img_2.png](img/img_2.png)
-   * Netty抽象出两组线程池BossGroup和WorkerGroup，前者撞门负责接收客户端的连接，后者专门负责网络的读写
+   
+   * Netty抽象出两组线程池BossGroup和WorkerGroup，前者专门负责接收客户端的连接，后者专门负责网络的读写
    * BossGroup和WorkerGroup类型都是NioEventLoopGroup
    * NioEventLoopGroup相当于一个事件循环线程组，这个组中含有多个事件循环线程，每一个事件循环线程是NioEventLoop
    * 每个NioEventLoop都有一个selector，用于监听注册在其上的socketChannel的网络通讯
