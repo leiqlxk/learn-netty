@@ -19,11 +19,11 @@
      * DoubleBuffer
      * CharBuffer
    * channel会注册到selector上，调用selector的selct()会阻塞，由selector根据channel读写事件的发生来返回这些事件将其交由某个空闲的线程处理
-   * NIO的Buffer和channel都是既读也可写
+   * NIO的Buffer和channel都是既可读也可写
 2. Nio的三个关键方法（以下为linux内实现，windows不支持epoll，底层是基于winsock2的select函数实现）
    * Selector.open：创建多路复用器，本质上是调用linux的epoll_create函数来创建epoll
    * socketChannel.register(selector, SelectionKey.OP_READ)：将channel注册到多路复用器上
-   * selector.selector：阻塞等待需要处理的事件发生，其内部通过epoll_ctl来进行事件绑定以及通过epoll_wait函数阻塞等待事件发生
+   * selector.select：阻塞等待需要处理的事件发生，其内部通过epoll_ctl来进行事件绑定以及通过epoll_wait函数阻塞等待事件发生
    ![img_1.png](img/img_1.png)
 3. EPoll函数
    * epoll_create
