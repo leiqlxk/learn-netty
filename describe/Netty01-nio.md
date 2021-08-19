@@ -1112,7 +1112,7 @@ System.out.println("waiting...");
 
 #### 非阻塞
 
-* 非阻塞模式下，相关方法都会不会让线程暂停
+* 非阻塞模式下，相关方法都不会让线程暂停
   * 在 ServerSocketChannel.accept 在没有连接建立时，会返回 null，继续运行
   * SocketChannel.read 在没有数据可读时，会返回 0，但线程不必阻塞，可以去执行其它 SocketChannel 的 read 或是去执行 ServerSocketChannel.accept 
   * 写数据时，线程只是等待数据写入 Channel 即可，无需等 Channel 通过网络把数据发送出去
@@ -1215,7 +1215,7 @@ SelectionKey key = channel.register(selector, 绑定事件);
 * 绑定的事件类型可以有
   * connect - 客户端连接成功时触发
   * accept - 服务器端成功接受连接时触发
-  * read - 数据可读入时触发，有因为接收能力弱，数据暂不能读入的情况，在关闭客户端和异常情况客户端连接被强制关闭时，都会触发一个写事件，正常关闭时read的返回值为-1，强制关闭时read会报错，我们应该捕获异常后通过key.cancel来移除SelectionKeys中的这个可以
+  * read - 数据可读入时触发，有因为接收能力弱，数据暂不能读入的情况，在关闭客户端和异常情况客户端连接被强制关闭时，都会触发一个写事件，正常关闭时read的返回值为-1，强制关闭时read会报错，我们应该捕获异常后通过key.cancel来移除SelectionKeys中的这个连接
   * write - 数据可写出时触发，有因为发送能力弱，数据暂不能写出的情况
 
 
