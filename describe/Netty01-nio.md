@@ -14,7 +14,7 @@ channel --> buffer
 buffer --> channel
 ```
 
-常见的 Channel 有
+常见的 Channel ：
 
 * FileChannel：读写文件
 * DatagramChannel：使用于udp
@@ -617,7 +617,7 @@ onetwothreefourfive
 
 现在要求你编写程序，将错乱的数据恢复成原始的按 \n 分隔的数据
 
-* 黏包发声的原因是因为客户端为了发送效率到一定量数据之后再统一发送
+* 黏包发生的原因是因为客户端为了发送效率到一定量数据之后再统一发送
   * 半包主要是由服务端的缓冲区大小决定的，当缓冲区大小不够就要等第二次再接收了
   * 我们可以使用limit、position、compact()来解决此问题
 
@@ -689,7 +689,7 @@ int readBytes = channel.read(buffer);
 
 #### 写入
 
-写入的正确姿势如下， SocketChannel
+写入的正确姿势如下
 
 ```java
 ByteBuffer buffer = ...;
