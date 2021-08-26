@@ -9,10 +9,10 @@
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!--  日志文件名称 -->
-        <file>logFile.log</file>
+        <file>D:/logs/logFile.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--  每天产生一个新的日志文件 -->
-            <fileNamePattern>logFile.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>D:/logs/logFile.%d{yyyy-MM-dd}.log</fileNamePattern>
             <!--  保留15天的日志  -->
             <maxHistory>15</maxHistory>
         </rollingPolicy>
@@ -28,6 +28,12 @@
 
     <logger name="org.lql.netty" level="DEBUG" additivity="false">
         <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE"/>
+    </logger>
+
+    <logger name="io.netty.handler.logging.LoggingHandler" level="DEBUG" additivity="false">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE"/>
     </logger>
 
      <logger name="io.netty.handler.logging.LoggingHandler" level="DEBUG" additivity="false">
