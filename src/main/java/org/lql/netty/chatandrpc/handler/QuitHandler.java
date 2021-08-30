@@ -18,29 +18,20 @@ import org.slf4j.LoggerFactory;
 public class QuitHandler extends ChannelInboundHandlerAdapter {
     private static final Logger LOGGER = LoggerFactory.getLogger(QuitHandler.class);
 
-    // 当连接断开触发事件，正常断开
+    // 当连接断开触发事件
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        String username = null;
-        try {
-            username = SessionFactory.getSession().getUsername(ctx.channel());
-            SessionFactory.getSession().unbind(ctx.channel());
-        }catch (Exception e) {
-
-        }finally {
-            ctx.close();
-            LOGGER.debug("{} 已断开", username);
-        }
+        String username = SessionFactory.getSession().getUsername(ctx.channel());
+        SessionFactory.getSession().unbind(ctx.channel());
+        LOGGER.debug("{} 已断开", username);
     }
 
-    // 异常断开
+    // 异常
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        /*String username = SessionFactory.getSession().getUsername(ctx.channel());
+        String username = SessionFactory.getSession().getUsername(ctx.channel());
         SessionFactory.getSession().unbind(ctx.channel());
-        ctx.channel().close();
-        LOGGER.debug("{} 已异常断开 异常是 {}", username, cause);*/
-        System.out.println("hehe");
-//        ctx.channel().close();
+
+        LOGGER.debug("{} 已异常断开 异常是 {}", username, cause);
     }
 }
