@@ -46,10 +46,7 @@ public class ChatServerHanlder extends SimpleChannelInboundHandler<String> {
         // 将客户端离开信息推送给单签在线的用户
         channelGroup.writeAndFlush("[客户端]" + channel.remoteAddress() + " 下线了  + “\n");
         System.out.println(channel.remoteAddress() + " 下线了 " + "\n");
-//        channel.close();
         System.out.println("channelGroup size = " + channelGroup.size());
-        ctx.close();
-
     }
 
     // 读取数据
@@ -65,12 +62,12 @@ public class ChatServerHanlder extends SimpleChannelInboundHandler<String> {
                 ch.writeAndFlush("[自己]发送了消息：" + msg + "\n");
             }
         });
-        throw new Exception("dasfasdfasdfas");
     }
 
     // 报错关闭连接
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         cause.printStackTrace();
+        ctx.close();
     }
 }
