@@ -56,13 +56,13 @@ public class ChatServer {
                         @Override
                         protected void initChannel(NioSocketChannel channel) throws Exception {
                             channel.pipeline().addLast(new ProcotolFreameDecoder());
-//                            channel.pipeline().addLast(loggingHandler);
+                            channel.pipeline().addLast(loggingHandler);
                             channel.pipeline().addLast(messageCodec);
                             // 空闲检测器，用来判断是不是读空闲时间过长，或写空闲时间过长，超过了会触发IdleStateEvent事件的三种状态：IdleState.READER_IDLE/ IdleState.WRITER_IDLE / IdleState.ALL_IDLE
                             // 参数1 检测读空闲
                             // 参数2 检测写空闲
                             // 参数3 检测读和写时间总和检测
-                            channel.pipeline().addLast(new IdleStateHandler(5, 0, 0));
+                            channel.pipeline().addLast(new IdleStateHandler(60, 0, 0));
                             // ChannelDuplexHandler 可以同时作为入站和出站处理器
                             channel.pipeline().addLast(new ChannelDuplexHandler() {
                                 // 用来触发特殊事件

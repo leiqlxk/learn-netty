@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.ByteOrder;
 import java.nio.charset.Charset;
+import java.util.Arrays;
 import java.util.concurrent.ConcurrentMap;
 import java.util.logging.FileHandler;
 
@@ -69,18 +70,23 @@ public class TestClod {
         );
 
         ByteBuf byteBuf = ByteBufAllocator.DEFAULT.buffer();
+        System.out.println(TestClod.class);
         byteBuf.writeBytes(new byte[]{0x7e, 0x7f, 0x26, 0x00, 0x00, 0x07, 0x01, 0x38, 0x36, 0x39, 0x31, 0x34, 0x33, 0x30, 0x35, 0x31, 0x39, 0x31, 0x35, 0x37, 0x30,
         0x38, 0x00, 0x34, 0x36, 0x30, 0x30, 0x34, 0x39, 0x33, 0x35, 0x33, 0x38, 0x30, 0x38, 0x31, 0x31, 0x34, 0x00, (byte) 0x94});
 
-        /*short len = byteBuf.getShortLE(2);
+        short len = byteBuf.getShortLE(2);
         int crc_result = 0;
         for (int i = 2; i < len + 1; i++) {
             crc_result = CRC8_TAB[crc_result ^ byteBuf.getByte(i)];
         }
+        // 获取校验字段
+        int crc8 = byteBuf.getByte(1 + len) & 0xFF;
+        System.out.println(crc8 == crc_result);
 
-        System.out.println("crc_result = " + crc_result + ",hex = " + Integer.toHexString(crc_result));*/
+        System.out.println(toHexString(ByteBufUtil.decodeHexDump(ByteBufUtil.hexDump(byteBuf))));
+        System.out.println(byteBuf);
 
-                embeddedChannel.writeInbound(byteBuf);
+//                embeddedChannel.writeInbound(byteBuf);
        /* short s = byteBuf.readShortLE();
         short length = byteBuf.readShortLE();
         byte sn = byteBuf.readByte();
@@ -110,5 +116,25 @@ public class TestClod {
         }
         stringBuilder.append(hv);
         return stringBuilder.toString();
+    }
+
+    public static String toHexString(byte[] a) {
+        if (a == null) {
+            return "null";
+        }
+        int iMax = a.length - 1;
+        if (iMax == -1) {
+            return "[]";
+        }
+
+        StringBuilder b = new StringBuilder();
+        b.append('[');
+        for (int i = 0; ; i++) {
+            b.append(Integer.toHexString(a[i] & 0xFF));
+            if (i == iMax) {
+                return b.append(']').toString();
+            }
+            b.append(", ");
+        }
     }
 }

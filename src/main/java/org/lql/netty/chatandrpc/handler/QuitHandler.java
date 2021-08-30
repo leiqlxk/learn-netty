@@ -21,17 +21,26 @@ public class QuitHandler extends ChannelInboundHandlerAdapter {
     // 当连接断开触发事件，正常断开
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        String username = SessionFactory.getSession().getUsername(ctx.channel());
-        SessionFactory.getSession().unbind(ctx.channel());
-        LOGGER.debug("{} 已断开", username);
+        String username = null;
+        try {
+            username = SessionFactory.getSession().getUsername(ctx.channel());
+            SessionFactory.getSession().unbind(ctx.channel());
+        }catch (Exception e) {
+
+        }finally {
+            ctx.close();
+            LOGGER.debug("{} 已断开", username);
+        }
     }
 
     // 异常断开
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        String username = SessionFactory.getSession().getUsername(ctx.channel());
+        /*String username = SessionFactory.getSession().getUsername(ctx.channel());
         SessionFactory.getSession().unbind(ctx.channel());
-
-        LOGGER.debug("{} 已异常断开 异常是 {}", username, cause);
+        ctx.channel().close();
+        LOGGER.debug("{} 已异常断开 异常是 {}", username, cause);*/
+        System.out.println("hehe");
+//        ctx.channel().close();
     }
 }
