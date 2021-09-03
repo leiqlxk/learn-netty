@@ -14,6 +14,7 @@ import java.nio.ByteOrder;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.FileHandler;
 
 /**
@@ -61,6 +62,8 @@ public class TestClod {
             0xE6, 0xE1, 0xE8, 0xEF, 0xFA, 0xFD, 0xF4, 0xF3
     };
 
+    private static final AtomicInteger id = new AtomicInteger();
+
 
 
     public static void main(String[] args) {
@@ -70,11 +73,17 @@ public class TestClod {
         );
 
         ByteBuf byteBuf = ByteBufAllocator.DEFAULT.buffer();
-        System.out.println(TestClod.class);
         byteBuf.writeBytes(new byte[]{0x7e, 0x7f, 0x26, 0x00, 0x00, 0x07, 0x01, 0x38, 0x36, 0x39, 0x31, 0x34, 0x33, 0x30, 0x35, 0x31, 0x39, 0x31, 0x35, 0x37, 0x30,
         0x38, 0x00, 0x34, 0x36, 0x30, 0x30, 0x34, 0x39, 0x33, 0x35, 0x33, 0x38, 0x30, 0x38, 0x31, 0x31, 0x34, 0x00, (byte) 0x94});
 
-        short len = byteBuf.getShortLE(2);
+
+        for (int i = 0; i < 1000; i++) {
+            int seq = id.compareAndSet(255, 0) ? 255 : id.getAndIncrement();
+            String b = Integer.toHexString(seq);
+            System.out.println(b);
+        }
+
+       /* short len = byteBuf.getShortLE(2);
         int crc_result = 0;
         for (int i = 2; i < len + 1; i++) {
             crc_result = CRC8_TAB[crc_result ^ byteBuf.getByte(i)];
@@ -86,6 +95,13 @@ public class TestClod {
         System.out.println(toHexString(ByteBufUtil.decodeHexDump(ByteBufUtil.hexDump(byteBuf))));
         System.out.println(byteBuf);
 
+        String test = "7e7f";
+        System.out.println(Arrays.toString(ByteBufUtil.decodeHexDump(test)));
+
+        byte pktType = byteBuf.getByte(5);
+        System.out.println("pktType = " + pktType);
+
+        System.out.println("byteBuf.readableBytes() = " + byteBuf.readableBytes());*/
 //                embeddedChannel.writeInbound(byteBuf);
        /* short s = byteBuf.readShortLE();
         short length = byteBuf.readShortLE();
