@@ -100,13 +100,10 @@
       NioSctpChannel，异步的客户端Sctp连接
       NioSctpServerChannel，异步的Sctp服务器连接
      ```
-   * Selector：Netty基于Selector对象实现I/O多路复用，通过Selector一个线程可以监听多个连接的Channel事件。当一个Selector中注册Channel后，Selector内部的机制
-   就可以自动不断地查询（Select）这些注册的Channel是否有已就绪的I/O事件。
-   * NioEventLoop：NioEventLoop中维护了一个线程和任务队列，支持一部提交执行任务，线程启动时会调用NioEventLoop的run方法，执行I/O任务和非I/O任务。I/O任务即SelectionKey中ready的时间，如
-   accept、connect、read、write等，由processSelectedKeys方法触发。非I/O任务是添加到taskQueue中的任务，如register()、bind()等任务，有runAllTasks方法触发
+   * Selector：Netty基于Selector对象实现I/O多路复用，通过Selector一个线程可以监听多个连接的Channel事件。当一个Selector中注册Channel后，Selector内部的机制就可以自动不断地查询（Select）这些注册的Channel是否有已就绪的I/O事件。
+   * NioEventLoop：NioEventLoop中维护了一个线程和任务队列，支持一部提交执行任务，线程启动时会调用NioEventLoop的run方法，执行I/O任务和非I/O任务。I/O任务即SelectionKey中ready的时间，如accept、connect、read、write等，由processSelectedKeys方法触发。非I/O任务是添加到taskQueue中的任务，如register()、bind()等任务，有runAllTasks方法触发
    * NioEventLoopGroup：主要管理eventLoop的生命周期，可以理解为一个线程池，内部维护了一组线程，每个线程负责处理多个Channel上的时间，而一个Channel只对应于一个线程
-   * ChannelHandler：其是一个接口，处理I/O事件或拦截I/O操作，并将其转发到其ChannelPipeline（业务处理链）中的下一个处理程序。ChannelHandler本身并没有提供很多方法，因为这个接口有许多的方法
-   需要实现，方便使用起见可以继承它的子类：ChannelInboundHandler（用于处理入站I/O事件）、ChannelOutboundHandler（用于处理出站I/O操作）。或者使用适配器类：ChannelInboundHandlerAdapter（
+   * ChannelHandler：其是一个接口，处理I/O事件或拦截I/O操作，并将其转发到其ChannelPipeline（业务处理链）中的下一个处理程序。ChannelHandler本身并没有提供很多方法，因为这个接口有许多的方法需要实现，方便使用起见可以继承它的子类：ChannelInboundHandler（用于处理入站I/O事件）、ChannelOutboundHandler（用于处理出站I/O操作）。或者使用适配器类：ChannelInboundHandlerAdapter（
    用于处理入站I/O事件）、ChannelOutboundHandlerAdapter用于处理出站I/O操作
    * ChannelHandlerContext：保存Channel相关的上下文信息，同时关联一个ChannelHandler对象
    * ChannelPipeline：保存ChannelHandler的List，用于处理或拦截Channel入站事件和出站操作，其实现了一种高级形式的拦截过滤器模式，使用户可以完全控制事件的处理方式，以及Channel中各个的
