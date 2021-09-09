@@ -618,8 +618,8 @@ onetwothreefourfive
 现在要求你编写程序，将错乱的数据恢复成原始的按 \n 分隔的数据
 
 * 黏包发生的原因是因为客户端为了发送效率到一定量数据之后再统一发送
-  * 半包主要是由服务端的缓冲区大小决定的，当缓冲区大小不够就要等第二次再接收了
-  * 我们可以使用limit、position、compact()来解决此问题
+* 半包主要是由服务端的缓冲区大小决定的，当缓冲区大小不够就要等第二次再接收了
+* 我们可以使用limit、position、compact()来解决此问题
 
 ```java
 public static void main(String[] args) {
@@ -696,7 +696,7 @@ ByteBuffer buffer = ...;
 buffer.put(...); // 存入数据
 buffer.flip();   // 切换读模式
 
-        // 因为write方法并不能保证一次将buffer中的内容全部写入channel，特别是在socketChannel中写入能力是有限的
+// 因为write方法并不能保证一次将buffer中的内容全部写入channel，特别是在socketChannel中写入能力是有限的
 while(buffer.hasRemaining()) {
     channel.write(buffer);
 }
@@ -1317,7 +1317,7 @@ public class ChannelDemo6 {
                         log.debug("{}", sc);
                     }
                     // 处理完毕，必须将事件移除
-                   // 只会移除SelectionKey中的事件并不会将key移除，所以在我们处理完事件后必须手动iterator.remove，否则会重复处理****
+                   // 只会移除SelectionKey中的事件并不会将key移除，所以在我们处理完事件后必须手动iterator.remove，否则会重复处理
                     iter.remove();
                 }
             }
@@ -1731,14 +1731,6 @@ public class WriteClient {
 #### 💡 write 为何要取消
 
 只要向 channel 发送数据时，socket 缓冲可写，这个事件会频繁触发，因此应当只在 socket 缓冲区写不下时再关注可写事件，数据写完之后再取消关注
-
-
-
-
-
-
-
-
 
 
 

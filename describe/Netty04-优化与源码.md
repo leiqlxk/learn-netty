@@ -922,7 +922,7 @@ public class RpcResponseMessageHandler extends SimpleChannelInboundHandler<RpcRe
 
 ### 2.1 启动剖析
 
-我们就来看看 netty 中对下面的代码是怎样进行处理的
+ netty 中对下面的代码是怎样进行处理的
 
 ```java
 //1 netty 中使用 NioEventLoopGroup （简称 nio boss 线程）来封装线程和 selector
@@ -948,10 +948,6 @@ serverSocketChannel.bind(new InetSocketAddress(8080));
 //8 触发 channel active 事件，在 head 中关注 op_accept 事件
 selectionKey.interestOps(SelectionKey.OP_ACCEPT);
 ```
-
-
-
-
 
 
 

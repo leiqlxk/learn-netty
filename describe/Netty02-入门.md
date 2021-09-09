@@ -13,17 +13,7 @@ for rapid development of maintainable high performance protocol servers & client
 
 Netty 是一个异步的、基于事件驱动的网络应用框架，用于快速开发可维护、高性能的网络服务器和客户端
 
-
-
-### 1.2 Netty 的作者
-
-![](img/0005.png)
-
-他还是另一个著名网络应用框架 Mina 的重要贡献者
-
-
-
-### 1.3 Netty 的地位
+### 1.2 Netty 的地位
 
 Netty 在 Java 网络应用框架中的地位就好比：Spring 框架在 JavaEE 开发中的地位
 
@@ -41,7 +31,7 @@ Netty 在 Java 网络应用框架中的地位就好比：Spring 框架在 JavaEE
 
 
 
-### 1.4 Netty 的优势
+### 1.3 Netty 的优势
 
 * Netty vs NIO，工作量大，bug 多
   * 需要自己构建协议
@@ -105,7 +95,7 @@ new ServerBootstrap()
 
 代码解读
 
-* 1 处，创建 NioEventLoopGroup，可以简单理解为 `线程池 + Selector` 后面会详细展开
+* 1 处，创建 NioEventLoopGroup，可以简单理解为 `线程池 + Selector` 
 
 * 2 处，选择服务 Scoket 实现类，其中 NioServerSocketChannel 表示基于 NIO 的服务器端实现，其它实现还有
 
@@ -661,31 +651,9 @@ public class CloseFutureClient {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 经研究发现，看病可以细分为四个步骤，经拆分后每个步骤需要 5 分钟，如下
 
 ![](img/0048.png)
-
-
-
-
-
-
-
-
-
-
 
 因此可以做如下优化，只有一开始，医生 2、3、4 分别要等待 5、10、15 分钟才能执行工作，但只要后续病人源源不断地来，他们就能够满负荷工作，并且处理病人的能力提高到了 `4 * 8 * 12` 效率几乎是原来的四倍
 
@@ -804,22 +772,22 @@ log.debug("start...");
 
 ```java
 DefaultEventLoop eventExecutors = new DefaultEventLoop();
-        DefaultPromise<Integer> promise = new DefaultPromise<>(eventExecutors);
+DefaultPromise<Integer> promise = new DefaultPromise<>(eventExecutors);
 
-        eventExecutors.execute(() -> {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            RuntimeException e = new RuntimeException("error...");
-            log.debug("set failure, {}", e.toString());
-            promise.setFailure(e);
-        });
+eventExecutors.execute(() -> {
+    try {
+        Thread.sleep(1000);
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+    RuntimeException e = new RuntimeException("error...");
+    log.debug("set failure, {}", e.toString());
+    promise.setFailure(e);
+});
 
-        log.debug("start...");
-        log.debug("{}", promise.getNow());
-        promise.get(); // sync() 也会出现异常，只是 get 会再用 ExecutionException 包一层异常
+log.debug("start...");
+log.debug("{}", promise.getNow());
+promise.get(); // sync() 也会出现异常，只是 get 会再用 ExecutionException 包一层异常
 ```
 
 输出
