@@ -1575,7 +1575,8 @@ public static void main(String[] args) throws IOException {
                     SocketChannel channel = (SocketChannel) key.channel(); // 拿到触发事件的channel
                     // 获取 selectionKey 上关联的附件
                     ByteBuffer buffer = (ByteBuffer) key.attachment();
-                    int read = channel.read(buffer); // 如果是正常断开，read 的方法的返回值是 -1
+                    int read = channel.read(buffer); 
+                    // 如果是正常断开，read 的方法的返回值是 -1
                     if(read == -1) {
                         key.cancel();
                     } else {
